@@ -43,7 +43,7 @@ public:
 	{
 		unsigned long now = millis();
 		
-		if(now - m_lastReadValueTick > 1000 / m_refreshRate)
+		if(now - m_lastReadValueTick > 1000)
 		{	
 			m_lastReadValueTick = now;
 			
@@ -57,10 +57,16 @@ public:
 
     uint16_t getMiliVolts_battery()
     {
+        unsigned long now = millis();
 
-        const float multiplier = 0.125F; //GAIN 1
+        if(now - m_lastReadValueTick > 100000)
+        {
+            m_lastReadValueTick = now;
 
-        m_lastReadValue_battery = m_ads1115->readADC_SingleEnded(1) * multiplier;// / 1000.0;
+            const float multiplier = 0.125F; //GAIN 1
+
+            m_lastReadValue_battery = m_ads1115->readADC_SingleEnded(1) * multiplier;// / 1000.0;
+        }
 
         return m_lastReadValue_battery;
     }

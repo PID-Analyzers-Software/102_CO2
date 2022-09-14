@@ -72,7 +72,7 @@ public:
 
     double calculateSLM(double voltage) {
         //double val = (voltage*voltage*m_slope + voltage*m_secondp + m_intercept ) * getSelectedGas().getThermalConductivity();
-        double val = (voltage*m_secondp + m_intercept ) / getSelectedGas().getThermalConductivity();
+        double val = (voltage + m_intercept ) / m_secondp / getSelectedGas().getThermalConductivity();
         //SerialBT.print((String(val, 0) + ",ppb\n").c_str());
         //Serial.println(String(m_secondp));
         //Serial.println("calculateSLM " + String(val) + " " + String(voltage) + " " + String(getSelectedGas().getThermalConductivity()) + " " + String(m_slope) + " " + String(m_intercept));
@@ -111,7 +111,7 @@ public:
 
     void calibrate2(float cal){
         m_calgas = cal;
-        m_secondp = 1/(m_calgas - m_zero);
+        m_secondp = (m_calgas - m_zero)/1500;
         EEPROM.writeDouble(20, m_secondp);
 
         Serial.println(m_zero);

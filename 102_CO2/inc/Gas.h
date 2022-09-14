@@ -14,6 +14,6 @@ public:
     void setSecondp(double p) { m_secondp = p; }
 
     double calculateSLM(int voltage) {
-		return m_slope * voltage * voltage + m_secondp * voltage + m_intercept;
-	}
+		return (voltage + m_intercept ) / m_secondp;
+    }
 };
