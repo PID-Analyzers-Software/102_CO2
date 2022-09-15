@@ -104,27 +104,23 @@ public:
         m_zero = zero;
         m_intercept = -zero;
         EEPROM.writeDouble(12, m_intercept);
-        Serial.println(m_zero);
-        Serial.println(m_calgas);
-        Serial.println(m_secondp);
+        Serial.println(m_zero*1000);
+        Serial.println(m_calgas*1000);
+        Serial.println(m_secondp*1000);
     }
 
     void calibrate2(float cal){
         m_calgas = cal;
-        m_secondp = (m_calgas - m_zero)/1500;
+        m_secondp = (m_calgas - m_zero)/2500;
         EEPROM.writeDouble(20, m_secondp);
 
-        Serial.println(m_zero);
-        Serial.println(m_calgas);
-        Serial.println(m_secondp);
+        Serial.println(m_zero*1000);
+        Serial.println(m_calgas*1000);
+        Serial.println(m_secondp*1000);
     }
 
     void calibrate3(){
-        m_secondp = (m_calgas - m_zero);
 
-        Serial.println("New Cal Factors: ");
-        Serial.println(m_secondp);
-        Serial.println("Calibrated !!!");
     }
 
     void selectPreviousGas()

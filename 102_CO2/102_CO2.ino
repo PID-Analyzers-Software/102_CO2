@@ -75,7 +75,7 @@ void IRAM_ATTR dummyTouchISR() {}
 void setup() {
   Serial.begin(115200);
 
-    Serial.println("Adafruit SHT4x test");
+  Serial.println("Adafruit SHT4x test");
   if (! sht4.begin()) {
     Serial.println("Couldn't find SHT4x");
     while (1) delay(1);
@@ -83,11 +83,11 @@ void setup() {
   sht4.setPrecision(SHT4X_HIGH_PRECISION);
   sht4.setHeater(SHT4X_NO_HEATER);
 
-  
+
   // DEEP-SLEEP init
   pinMode(25, OUTPUT);
-  
-//  SerialBT.begin("ESP32_102"); //Bluetooth device name
+
+  //  SerialBT.begin("ESP32_102"); //Bluetooth device name
   Serial.println("The device started, now you can pair it with bluetooth!");
 
   //esp_sleep_enable_ext1_wakeup(0x8004, ESP_EXT1_WAKEUP_ANY_HIGH);
@@ -96,10 +96,10 @@ void setup() {
   ads1115.begin();
   ads1115.setGain(GAIN_ONE);
 
-  AnalogSourceInput* ads1115AnalogSourceInput = new ADS1115AnalogSourceInput(&ads1115,&sht4);
+  AnalogSourceInput* ads1115AnalogSourceInput = new ADS1115AnalogSourceInput(&ads1115, &sht4);
 
 
-  
+
   DataSource* dataSource = new DataSource(&g_gasManager, ads1115AnalogSourceInput);
 
   // Gas Manager
@@ -130,10 +130,10 @@ void setup() {
   MenuRenderer* wifiRealTimeDumpMenuRenderer = new SSD1306WiFiRealTimeDumpMenuRenderer(&display, &g_dataLogger);
   MenuRenderer* NTPSyncMenuRenderer = new SSD1306NTPSyncMenuRenderer(&display, &g_timeSync);
   MenuRenderer* showTimeMenuRenderer = new SSD1306ShowTimeMenuRenderer(&display);
-    MenuRenderer* CalStartMenuRenderer = new SSD1306CalStartMenuRenderer(&display);
+  MenuRenderer* CalStartMenuRenderer = new SSD1306CalStartMenuRenderer(&display);
 
   MenuRenderer* ZEROMenuRenderer = new SSD1306ZEROMenuRenderer(&display, dataSource, &g_gasManager);
-  MenuRenderer* CalGasMenuRenderer = new SSD1306CalGasMenuRenderer(&display,dataSource, &g_gasManager);
+  MenuRenderer* CalGasMenuRenderer = new SSD1306CalGasMenuRenderer(&display, dataSource, &g_gasManager);
   MenuRenderer* CalResMenuRenderer = new SSD1306CalResMenuRenderer(&display, &g_gasManager);
 
 #endif
@@ -203,8 +203,8 @@ void setup() {
   // Cal menu
   vector<Menu*> calMenus;
   //calMenus.push_back(new CalMenuItemStart("Start", "CALIBRATION", CalStartMenuRenderer));
-  calMenus.push_back(new CalMenuItemZero("Zero",dataSource,&g_gasManager, "CALIBRATION", ZEROMenuRenderer));
-  calMenus.push_back(new CalMenuItemCalGas("Cal Gas",dataSource,&g_gasManager, "CALIBRATION", CalGasMenuRenderer));
+  calMenus.push_back(new CalMenuItemZero("Zero", dataSource, &g_gasManager, "CALIBRATION", ZEROMenuRenderer));
+  calMenus.push_back(new CalMenuItemCalGas("Cal Gas", dataSource, &g_gasManager, "CALIBRATION", CalGasMenuRenderer));
   //calMenus.push_back(new CalMenuItemRes("CalResult",dataSource,&g_gasManager, "CALIBRATION", CalResMenuRenderer));
 
   CompositeMenu* calMenu = new CompositeMenu("CALIBRATION", "Main Menu", calMenus);
@@ -212,9 +212,9 @@ void setup() {
   vector<Menu*> horizontalMenus;
 
   horizontalMenus.push_back(runMenu);
-  horizontalMenus.push_back(libraryMenu);
+  // horizontalMenus.push_back(libraryMenu);
   //  horizontalMenus.push_back(timerMenu);
-  horizontalMenus.push_back(dataLoggerMenu);
+  //  horizontalMenus.push_back(dataLoggerMenu);
   horizontalMenus.push_back(dateTimeMenu);
   horizontalMenus.push_back(calMenu);
   Serial.println("horizontal menu " + String(horizontalMenus.size()));

@@ -73,7 +73,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
 
   m_display->drawLine(0, 14, 256, 14);
   m_display->setFont(ArialMT_Plain_24);
-  if (sensor_val > 1005) {
+  if (sensor_val > 5001) {
     m_display->drawString(60, 18, "xxx");
   } else {
     m_display->drawString(60, 18, String(esti_val, 1).c_str());
