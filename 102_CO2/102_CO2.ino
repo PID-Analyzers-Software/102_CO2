@@ -22,14 +22,12 @@ using namespace std;
 #define USE_SSD1306_DISPLAY
 //#define USE_SSD1327_DISPLAY
 
-Adafruit_SHT4x sht4 = Adafruit_SHT4x();
 
 #define MAX_SCCM 5000
 
 #define wifi_ssid "22CDPro"
 #define wifi_password "00525508"
 
-//BluetoothSerial SerialBT;
 
 GasManager g_gasManager(1.73231201, -2.054456771, 1, 0, 0);
 
@@ -75,13 +73,6 @@ void IRAM_ATTR dummyTouchISR() {}
 void setup() {
   Serial.begin(115200);
 
-  Serial.println("Adafruit SHT4x test");
-  if (! sht4.begin()) {
-    Serial.println("Couldn't find SHT4x");
-    while (1) delay(1);
-  }
-  sht4.setPrecision(SHT4X_HIGH_PRECISION);
-  sht4.setHeater(SHT4X_NO_HEATER);
 
 
   // DEEP-SLEEP init
