@@ -26,14 +26,7 @@ public:
     {
         return m_analogSourceInput->getMiliVolts_battery();
     }
-    uint16_t getTemp() const
-    {
-        return m_analogSourceInput->getTemp();
-    }
-    uint16_t getHum() const
-    {
-        return m_analogSourceInput->getHum();
-    }
+
 	double getDoubleValue()
 	{
         uint16_t miliVolts = m_analogSourceInput->getMiliVolts();

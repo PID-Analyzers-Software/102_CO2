@@ -96,7 +96,7 @@ void setup() {
   ads1115.begin();
   ads1115.setGain(GAIN_ONE);
 
-  AnalogSourceInput* ads1115AnalogSourceInput = new ADS1115AnalogSourceInput(&ads1115, &sht4);
+  AnalogSourceInput* ads1115AnalogSourceInput = new ADS1115AnalogSourceInput(&ads1115);
 
 
 
