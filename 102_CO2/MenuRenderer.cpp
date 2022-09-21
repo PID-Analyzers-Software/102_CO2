@@ -41,8 +41,7 @@ SimpleKalmanFilter simpleKalmanFilter(2, 2, 0.1);
 void SSD1306RunMenuRenderer::render(Menu* menu)
 {
   const float multiplier = 0.125F; //GAIN 1
-  double sensor_val = m_dataSource->getDoubleValue();
-  double esti_val = simpleKalmanFilter.updateEstimate(sensor_val);
+
   Gas& selectedGas = m_gasManager->getSelectedGas();
   int64_t startMicros = esp_timer_get_time();
 
@@ -73,16 +72,16 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
 
   m_display->drawLine(0, 14, 256, 14);
   m_display->setFont(ArialMT_Plain_24);
-  if (sensor_val > 5001) {
+  if (m_dataSource->getDoubleValue() > 5001) {
     m_display->drawString(60, 18, "xxx");
   } else {
-    m_display->drawString(60, 18, String(esti_val, 1).c_str());
+    m_display->drawString(60, 18, String(simpleKalmanFilter.updateEstimate(m_dataSource->getDoubleValue()),0).c_str());
 
   }
   m_display->setFont(ArialMT_Plain_10);
   m_display->drawString(105, 30, "ppm");   //Unit
   m_display->drawLine(0, 49, 256, 49);
-  //m_display->drawString(64, 51,  String(String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
+  m_display->drawString(64, 51,  String(String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
 
   //Serial.print(String(timeString));
   //Serial.print((String(esti_val, 1) + ",ppm,"+String(m_dataSource->getRawMiliVolts())+"mV\n").c_str());

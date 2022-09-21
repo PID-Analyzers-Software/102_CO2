@@ -72,11 +72,7 @@ public:
 
     double calculateSLM(double voltage) {
         //double val = (voltage*voltage*m_slope + voltage*m_secondp + m_intercept ) * getSelectedGas().getThermalConductivity();
-        double val = (voltage - m_intercept ) / m_secondp ; //votlage in volts
-        //Serial.println(voltage);
-        //SerialBT.print((String(val, 0) + ",ppb\n").c_str());
-        //Serial.println(String(m_secondp));
-        //Serial.println("calculateSLM " + String(val) + " " + String(voltage) + " " + String(getSelectedGas().getThermalConductivity()) + " " + String(m_slope) + " " + String(m_intercept));
+        double val = ((voltage - m_intercept ) / m_secondp) * 1000 ; //votlage in volts
         return val < 0 ? 0 : val;
     }
 
@@ -105,24 +101,24 @@ public:
         m_zero = zero/1000;
         m_intercept = m_zero;
         EEPROM.writeDouble(12, m_intercept);
-        //EEPROM.commit();
+        EEPROM.commit();
         Serial.println(m_zero);
         Serial.println(m_calgas);
         Serial.println(m_secondp);
-        delay(500);
 
     }
 
     void calibrate2(double cal){
-        m_calgas = cal/1000;
-        m_secondp = (m_calgas - m_zero)/2500;
-        EEPROM.writeDouble(20, m_secondp);
-        EEPROM.commit();
-
-        Serial.println(m_zero);
-        Serial.println(m_calgas);
-        Serial.println(m_secondp);
-        delay(500);
+        if((m_calgas - m_zero) > 1) {
+            m_calgas = cal / 1000;
+            m_secondp = (m_calgas - m_zero) / 2.5;
+            EEPROM.writeDouble(20, m_secondp);
+            EEPROM.commit();
+            Serial.println(m_intercept);
+            Serial.println(m_zero);
+            Serial.println(m_calgas);
+            Serial.println(m_secondp);
+        }
     }
 
     void calibrate3(){

@@ -31,7 +31,7 @@ public:
 	{
         uint16_t miliVolts = m_analogSourceInput->getMiliVolts();
 		//Serial.println("mv: " + String(miliVolts));
-        return m_gasManager->calculateSLM(miliVolts / 1000.0);
+        return m_gasManager->calculateSLM(miliVolts/1000.0);
 	}	
 
 };
