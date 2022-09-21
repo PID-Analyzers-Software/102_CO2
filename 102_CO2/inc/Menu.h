@@ -225,28 +225,6 @@ public:
 };
 
 
-class CalMenuItemStart : public Menu
-{
-
-    //TimeSync* m_timeSync;
-
-public:
-
-    CalMenuItemStart(String name, String parentName, MenuRenderer* renderer)
-            : Menu(name, parentName, renderer)
-    {
-        //m_timeSync = timeSync;
-    }
-
-    void action()
-    {
-
-
-    }
-
-};
-
-
 
 
 
@@ -268,7 +246,7 @@ public:
 
     void action()
     {
-        m_gasManager->calibrate(m_dataSource->getDoubleValue());
+        m_gasManager->calibrate(m_dataSource->getRawMiliVolts());
     }
 
 };
@@ -291,33 +269,11 @@ public:
 
     void action()
     {
-        m_gasManager->calibrate2(m_dataSource->getDoubleValue());
+        m_gasManager->calibrate2(m_dataSource->getRawMiliVolts());
     }
 
 };
 
-class CalMenuItemRes : public Menu
-{
-
-    DataSource* m_dataSource;
-    GasManager* m_gasManager;
-
-public:
-
-    CalMenuItemRes(String name, DataSource* dataSource, GasManager* gasManager, String parentName, MenuRenderer* renderer)
-            : Menu(name, parentName, renderer),
-              m_gasManager(gasManager),
-              m_dataSource(dataSource)
-    {
-
-    }
-
-    void action()
-    {
-        m_gasManager->calibrate3();
-    }
-
-};
 
 
 
@@ -372,12 +328,15 @@ public:
     void action() override
     {
         m_menus[m_currentIndex]->action();
+
+        m_currentIndex = (m_currentIndex + 1) % m_menus.size();
+        Serial.println("moveToNext" + String(m_currentIndex) + " " + String(m_menus.size()) );
+        Serial.println("moveToNext: " + m_menuName );
+        Serial.flush();
     }
 
     void render() override
     {
-        //Serial.println("RENDER COMP : " + m_menuName );
-        //Serial.flush();
         m_menus[ m_currentIndex ]->render();
     }
 

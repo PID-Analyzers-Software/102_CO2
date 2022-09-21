@@ -2,7 +2,6 @@
 #include <SSD1306.h>
 #include <U8g2lib.h>
 #include <Wire.h>
-#include "Adafruit_SHT4x.h"
 #include <WiFi.h>
 #include <vector>
 
@@ -22,12 +21,14 @@ using namespace std;
 #define USE_SSD1306_DISPLAY
 //#define USE_SSD1327_DISPLAY
 
+//Adafruit_SHT4x sht4 = Adafruit_SHT4x();
 
 #define MAX_SCCM 5000
 
 #define wifi_ssid "22CDPro"
 #define wifi_password "00525508"
 
+//BluetoothSerial SerialBT;
 
 GasManager g_gasManager(1.73231201, -2.054456771, 1, 0, 0);
 
@@ -73,6 +74,13 @@ void IRAM_ATTR dummyTouchISR() {}
 void setup() {
   Serial.begin(115200);
 
+  //  Serial.println("Adafruit SHT4x test");
+  //  if (! sht4.begin()) {
+  //    Serial.println("Couldn't find SHT4x");
+  //    while (1) delay(1);
+  //  }
+  //  sht4.setPrecision(SHT4X_HIGH_PRECISION);
+  //  sht4.setHeater(SHT4X_NO_HEATER);
 
 
   // DEEP-SLEEP init
@@ -191,14 +199,17 @@ void setup() {
   CompositeMenu* dateTimeMenu = new CompositeMenu("DATETIME", "Main Menu" , dateTimeMenus);
 
 
-  // Cal menu
+  // Cal zero menu
   vector<Menu*> calMenus;
-  //calMenus.push_back(new CalMenuItemStart("Start", "CALIBRATION", CalStartMenuRenderer));
-  calMenus.push_back(new CalMenuItemZero("Zero", dataSource, &g_gasManager, "CALIBRATION", ZEROMenuRenderer));
-  calMenus.push_back(new CalMenuItemCalGas("Cal Gas", dataSource, &g_gasManager, "CALIBRATION", CalGasMenuRenderer));
-  //calMenus.push_back(new CalMenuItemRes("CalResult",dataSource,&g_gasManager, "CALIBRATION", CalResMenuRenderer));
+  calMenus.push_back(new CalMenuItemZero("Zero", dataSource, &g_gasManager, "ZeroGas", ZEROMenuRenderer));
+  CompositeMenu* calMenu = new CompositeMenu("CALIBRATION Zero", "Main Menu", calMenus);
 
-  CompositeMenu* calMenu = new CompositeMenu("CALIBRATION", "Main Menu", calMenus);
+  // Cal gas menu
+  vector<Menu*> calgasMenus;
+  calgasMenus.push_back(new CalMenuItemCalGas("Cal Gas", dataSource, &g_gasManager, "CalGas", CalGasMenuRenderer));
+  CompositeMenu* calgasMenu = new CompositeMenu("CALIBRATION Calgas", "Main Menu", calgasMenus);
+
+
   ////////////////////////////////////
   vector<Menu*> horizontalMenus;
 
@@ -206,8 +217,10 @@ void setup() {
   // horizontalMenus.push_back(libraryMenu);
   //  horizontalMenus.push_back(timerMenu);
   //  horizontalMenus.push_back(dataLoggerMenu);
-  horizontalMenus.push_back(dateTimeMenu);
+  //horizontalMenus.push_back(dateTimeMenu);
   horizontalMenus.push_back(calMenu);
+  horizontalMenus.push_back(calgasMenu);
+
   Serial.println("horizontal menu " + String(horizontalMenus.size()));
   CompositeMenu* verticalMenu = new CompositeMenu("Main Menu", "", horizontalMenus);
 
