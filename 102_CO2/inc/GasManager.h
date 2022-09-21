@@ -109,7 +109,6 @@ public:
     }
 
     void calibrate2(double cal){
-        if((m_calgas - m_zero) > 1) {
             m_calgas = cal / 1000;
             m_secondp = (m_calgas - m_zero) / 2.5;
             EEPROM.writeDouble(20, m_secondp);
@@ -118,7 +117,6 @@ public:
             Serial.println(m_zero);
             Serial.println(m_calgas);
             Serial.println(m_secondp);
-        }
     }
 
     void calibrate3(){
