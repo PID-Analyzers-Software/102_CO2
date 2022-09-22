@@ -35,7 +35,7 @@ SSD1306RunMenuRenderer::SSD1306RunMenuRenderer(SSD1306Wire* display, DataSource*
 {
 
 }
-SimpleKalmanFilter simpleKalmanFilter(2, 2, 0.1);
+//SimpleKalmanFilter simpleKalmanFilter(2, 2, 0.1);
 
 
 void SSD1306RunMenuRenderer::render(Menu* menu)
@@ -72,10 +72,10 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
 
   m_display->drawLine(0, 14, 256, 14);
   m_display->setFont(ArialMT_Plain_24);
-  if (m_dataSource->getDoubleValue() > 5001) {
+  if (m_dataSource->getDoubleValue() > 10001) {
     m_display->drawString(60, 18, "xxx");
   } else {
-    m_display->drawString(60, 18, String(simpleKalmanFilter.updateEstimate(m_dataSource->getDoubleValue()),0).c_str());
+    m_display->drawString(60, 18, String(m_dataSource->getDoubleValue(),0).c_str());
 
   }
   m_display->setFont(ArialMT_Plain_10);
@@ -84,7 +84,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   m_display->drawString(64, 51,  String(String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
 
   Serial.print(String(timeString));
-  Serial.print((", "+ String(simpleKalmanFilter.updateEstimate(m_dataSource->getDoubleValue()), 0) + ",ppm,"+String(m_dataSource->getRawMiliVolts())+"mV\n").c_str());
+  Serial.print((", "+ String(m_dataSource->getDoubleValue(), 0) + ",ppm,"+String(m_dataSource->getRawMiliVolts())+"mV\n").c_str());
 
   m_display->display();
   delay(100);
