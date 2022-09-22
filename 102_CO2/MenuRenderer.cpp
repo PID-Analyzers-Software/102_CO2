@@ -298,7 +298,7 @@ void SSD1306CalGasMenuRenderer::render(Menu* menu)
   m_display->setTextAlignment(TEXT_ALIGN_CENTER);
   m_display->drawString(64, 0, "Calibration - Cal Gas");
   m_display->drawLine(10, 16, 256, 16);
-  m_display->drawString(64, 22, "Cal Gas: 2500 ppm");
+  m_display->drawString(64, 22, "Cal Gas: 7500 ppm");
   m_display->drawString(64, 32, String("Det: " + String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
   m_display->drawString(64, 45, "<S>: Confirm");
 
