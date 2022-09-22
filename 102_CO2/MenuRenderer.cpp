@@ -57,7 +57,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   char dateString[30] = { 0 };
   char timeString[30] = { 0 };
   strftime(dateString, 30, "%b %d %y", &timeinfo);
-  strftime(timeString, 30, "%H:%M:%S", &timeinfo);
+  strftime(timeString, 30, "%H:%M", &timeinfo);
 
   m_display->drawString(0, 0, String(timeString));
   // end of date & time
