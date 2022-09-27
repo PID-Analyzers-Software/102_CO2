@@ -6,7 +6,7 @@ class AnalogSourceInput
 {
 protected:
 
-    int 			m_refreshRate = 4; //refreshes per second
+    int 			m_refreshRate = 1; //refreshes per second
     unsigned long 	m_lastReadValueTick = -5000000;
     uint16_t 		m_lastReadValue;
     uint16_t 		m_lastReadValue_battery;
