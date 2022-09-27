@@ -6,7 +6,6 @@
 #include "SSD1306.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include <SimpleKalmanFilter.h>
 
 
 SSD1306GasMenuRenderer::SSD1306GasMenuRenderer(SSD1306Wire* display) : SSD1306MenuRenderer(display)
@@ -35,7 +34,6 @@ SSD1306RunMenuRenderer::SSD1306RunMenuRenderer(SSD1306Wire* display, DataSource*
 {
 
 }
-//SimpleKalmanFilter simpleKalmanFilter(2, 2, 0.1);
 
 
 void SSD1306RunMenuRenderer::render(Menu* menu)
@@ -57,7 +55,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   char dateString[30] = { 0 };
   char timeString[30] = { 0 };
   strftime(dateString, 30, "%b %d %y", &timeinfo);
-  strftime(timeString, 30, "%H:%M", &timeinfo);
+  strftime(timeString, 30, "%H:%M:%S", &timeinfo);
 
   m_display->drawString(0, 0, String(timeString));
   // end of date & time
@@ -72,7 +70,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
 
   m_display->drawLine(0, 14, 256, 14);
   m_display->setFont(ArialMT_Plain_24);
-  if (m_dataSource->getDoubleValue() > 10001) {
+  if (m_dataSource->getDoubleValue() > 5001) {
     m_display->drawString(60, 18, "xxx");
   } else {
     m_display->drawString(60, 18, String(m_dataSource->getDoubleValue(),0).c_str());
@@ -83,8 +81,8 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   m_display->drawLine(0, 49, 256, 49);
   m_display->drawString(64, 51,  String(String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
 
-  Serial.print(String(timeString));
-  Serial.print((", "+ String(m_dataSource->getDoubleValue(), 0) + ",ppm,"+String(m_dataSource->getRawMiliVolts())+"mV\n").c_str());
+  //Serial.print(String(timeString));
+  //Serial.print((String(esti_val, 1) + ",ppm,"+String(m_dataSource->getRawMiliVolts())+"mV\n").c_str());
 
   m_display->display();
   delay(100);
@@ -298,7 +296,7 @@ void SSD1306CalGasMenuRenderer::render(Menu* menu)
   m_display->setTextAlignment(TEXT_ALIGN_CENTER);
   m_display->drawString(64, 0, "Calibration - Cal Gas");
   m_display->drawLine(10, 16, 256, 16);
-  m_display->drawString(64, 22, "Cal Gas: 7500 ppm");
+  m_display->drawString(64, 22, "Cal Gas: 2500 ppm");
   m_display->drawString(64, 32, String("Det: " + String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
   m_display->drawString(64, 45, "<S>: Confirm");
 
