@@ -110,7 +110,7 @@ public:
 
     void calibrate2(double cal){
             m_calgas = cal / 1000;
-            m_secondp = (m_calgas - m_zero) / 7.5;
+            m_secondp = (m_calgas - m_zero) / 2.5;
             EEPROM.writeDouble(20, m_secondp);
             EEPROM.commit();
             Serial.println(m_intercept);
